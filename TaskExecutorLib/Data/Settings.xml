@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+
+  <!-- General -->
+
+  <!-- Supports full or relative paths -->
+  <configDataDirectory>Data\</configDataDirectory>
+
+  <!-- The available tasks XML and XSD filenames -->
+  <TasksXML>Tasks.xml</TasksXML>
+  <TasksXSD>Tasks.xsd</TasksXSD>
+
+  <!-- GUI Settings-->
+
+  <!-- How many tasks should be shown on the GUI for each row-->
+  <tasksPerRow>3</tasksPerRow>
+  <!-- The default form width-->
+  <defaultWidthPixels>300</defaultWidthPixels>
+  <!-- The default form height-->
+  <defaultHeightPixels>300</defaultHeightPixels>
+</settings>

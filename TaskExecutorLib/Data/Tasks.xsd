@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:simpleType name="taskType" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="commandTask" />
+      <xs:enumeration value="otherTask" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="taskData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="taskEntry" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- The caption text for the GUI  -->
+              <xs:element name="caption" minOccurs="1" maxOccurs="1" type="xs:string"/>
+              <!-- The GUI image (Not mandatory)-->
+              <xs:element name="image" minOccurs="0" maxOccurs="1" type="xs:string"/>
+              <!-- The command-->
+              <xs:element name="command" minOccurs="0" maxOccurs="unbounded" type="commandType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="commandType">
+    <xs:sequence>
+      <!-- The type of task, see taskType-->
+      <xs:element name="type" minOccurs="1" maxOccurs="1" type="taskType" />
+      <!-- The command to execute-->
+      <xs:element name="cmd" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
+      <!-- The command args-->
+      <xs:element name="args" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <!-- Is the command parameterised (Not mandatory)-->
+      <xs:element name ="parameterised" minOccurs="0" maxOccurs="1" type="xs:boolean"/>
+      <!-- Should the command ask for confirmation -->
+      <xs:element name ="confirm" minOccurs="0" maxOccurs="1" type="xs:boolean"/>
+      <!-- Should the standard output of a process be redirected the debugger output log -->
+      <xs:element name ="redirectStandardOutput" minOccurs="0" maxOccurs="1" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

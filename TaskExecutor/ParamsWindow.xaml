@@ -1,0 +1,17 @@
+﻿<Window x:Class="TaskExecutor.ParamsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskExecutor"
+        mc:Ignorable="d"
+        Title="Enter parameters for command" Height="161.383" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+
+    <ScrollViewer>
+        <StackPanel x:Name="pnlCommands"
+                    Margin="20,20.2,20.2,20"
+                    CanVerticallyScroll="True">
+            <Grid x:Name="gridCommands" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>

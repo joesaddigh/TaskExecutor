@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<taskData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <taskEntry>
+    <caption>Exe Config Dir</caption>
+    <image>Images\explorer.png</image>
+    <command>
+      <type>commandTask</type>
+      <cmd>explorer.exe</cmd>
+      <args>Data\</args>
+    </command>
+  </taskEntry>
+
+  <taskEntry>
+    <caption>Exe Config</caption>
+    <image>Images\npp.png</image>
+    <command>
+      <type>commandTask</type>
+      <cmd>"C:\Program Files (x86)\Notepad++\notepad++.exe"</cmd>
+      <args>Data\Tasks.xml</args>
+    </command>
+  </taskEntry>
+
+  <taskEntry>
+    <caption>App</caption>
+    <image>Images\app.png</image>
+    <command>
+      <type>commandTask</type>
+      <cmd>explorer.exe</cmd>
+      <args>C:\Users\joe\Documents\Company\App\Crypto</args>
+    </command>
+  </taskEntry>
+
+  <taskEntry>
+    <caption>Node Test</caption>
+    <image>Images\chrome.png</image>
+    <command>
+      <type>commandTask</type>
+      <cmd>"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"</cmd>
+      <args>--new-window "http://127.0.0.1:3000/"</args>
+    </command>
+  </taskEntry>
+</taskData>
