@@ -37,10 +37,19 @@
       <xs:element name="args" minOccurs="1" maxOccurs="1" type="xs:string" />
       <!-- Is the command parameterised (Not mandatory)-->
       <xs:element name ="parameterised" minOccurs="0" maxOccurs="1" type="xs:boolean"/>
+      <!-- Is the command parameterised (Not mandatory)-->
+      <xs:element name ="supportedParamsInfo" minOccurs="0" maxOccurs="1" type="supportedParamsType"/>
       <!-- Should the command ask for confirmation -->
-      <xs:element name ="confirm" minOccurs="0" maxOccurs="1" type="xs:boolean"/>
+      <xs:element name ="confirm" minOccurs="0" maxOccurs="1" type="xs:boolean"/>      
       <!-- Should the standard output of a process be redirected the debugger output log -->
       <xs:element name ="redirectStandardOutput" minOccurs="0" maxOccurs="1" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="supportedParamsType">
+    <xs:sequence>      
+      <!-- If the command is parameterised the supported parameters can be specified here. If specified a drop-down will appear instead of an input box.-->
+      <xs:element name ="supportedParam" minOccurs="1" maxOccurs="unbounded" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 

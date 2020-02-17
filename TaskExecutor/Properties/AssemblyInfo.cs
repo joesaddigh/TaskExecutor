@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TaskExecutor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A general purpose application that can be configured to execute tasks")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TaskExecutor")]

@@ -130,17 +130,24 @@ namespace TaskExecutorLib.Shared
                             (0 == this.SchemaErrors.Length))
                         {
                             int iTask = 0;
-                            XmlNodeList xmlnodeList = XmlUtils.GetElementsByTagName(xmldoc, ConfigStringKey.TASK_ENTRY);
 
-                            foreach (XmlElement xmlnode in xmlnodeList)
+                            foreach (XmlElement xmlnode in XmlUtils.GetElementsByTagName(xmldoc, ConfigStringKey.TASK_ENTRY))
                             {
-                                XmlNodeList xmlnodeListCommands = xmlnode.SelectNodes(ConfigStringKey.COMMAND_ELEMENT);
-
                                 var commands = new List<ExecutionTaskCommand>();
-
                                 int commandId = 0;
-                                foreach (XmlNode xmlCommandNode in xmlnodeListCommands)
+
+                                foreach (XmlNode xmlCommandNode in xmlnode.SelectNodes(ConfigStringKey.COMMAND_ELEMENT))
                                 {
+                                    var supportedParams = new List<string>();
+
+                                    foreach (XmlElement supportedParamInfo in xmlCommandNode.SelectNodes(ConfigStringKey.SUPPORTED_PARAMS_INFO))
+                                    {
+                                        foreach (XmlNode param in supportedParamInfo.SelectNodes(ConfigStringKey.SUPPORTED_PARAM))
+                                        {
+                                            supportedParams.Add(param.InnerText);
+                                        }
+                                    }
+
                                     commands.Add(new ExecutionTaskCommand()
                                     {
                                         Id = commandId,
@@ -148,6 +155,7 @@ namespace TaskExecutorLib.Shared
                                         Type = (TaskType)Enum.Parse(typeof(TaskType), XmlUtils.GetSubElementByTagNameAsString(xmlCommandNode, ConfigStringKey.TYPE)),
                                         Args = XmlUtils.GetSubElementByTagNameAsString(xmlCommandNode, ConfigStringKey.ARGS),
                                         Parameterised = XmlUtils.GetSubElementByTagNameAsBool(xmlCommandNode, ConfigStringKey.PARAMETERISED),
+                                        SupportedParams = supportedParams,
                                         Confirm = XmlUtils.GetSubElementByTagNameAsBool(xmlCommandNode, ConfigStringKey.CONFIRM),
                                         RedirectStandardOutput = XmlUtils.GetSubElementByTagNameAsBool(xmlCommandNode, ConfigStringKey.REDIRECT_STANDARD_OUTPUT)
                                     });

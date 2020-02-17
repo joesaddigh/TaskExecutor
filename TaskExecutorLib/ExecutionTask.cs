@@ -50,17 +50,40 @@ namespace TaskExecutorLib
 
     public class ExecutionTaskCommand
     {
+        public const char ArgSeparator = '|';
+
         public int Id { get; set; }
         public TaskType Type { get; set; }
         public string Command { get; internal set; }
         public string Args { get; internal set; }
         public bool Parameterised { get; internal set; }
+        public List<string> SupportedParams { get; internal set; }
         public bool Confirm { get; internal set; }
         public bool RedirectStandardOutput { get; internal set; }
 
         public string GetCommandExpandEnvironmentVariables()
         {
             return Environment.ExpandEnvironmentVariables(Command);
+        }
+
+        public string GetFullEvaluatedCommandWithArgs()
+        {
+            var arguments = GetFullEvaluatedCommandWithArgs(Args);
+            return arguments;
+        }
+
+        public string GetFullEvaluatedCommandWithArgs(string args)
+        {
+            var arguments = "";
+
+            foreach (var arg in args.Split(Process.ArgSeparator))
+            {
+                arguments += arg.Contains(" ") ?
+                    " \"" + arg + "\"" :
+                    " " + arg;
+            }
+
+            return $"{GetCommandExpandEnvironmentVariables()} {arguments}";
         }
     }
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using TaskExecutorLib;
 
 namespace TaskExecutor
 {
@@ -10,7 +12,8 @@ namespace TaskExecutor
         {
             eButton,
             eTextBlock,
-            eTextBox
+            eTextBox,
+            eComboBox
         }
 
         public static void ClearGridGuiItems(Grid grid)
@@ -24,12 +27,81 @@ namespace TaskExecutor
             }
         }
 
-        public static void CreateControlAndAddToGrid(Grid grid, ControlType eControlType, object tagValue, string caption, int row, int column, int width, int height, string tooltip)
+        public static void CreateControlAndAddToGrid(
+            Grid grid, 
+            ControlType eControlType, 
+            object tagValue, 
+            string caption, 
+            int row, 
+            int column, 
+            int width, 
+            int height, 
+            string tooltip
+        )
         {
-            CreateControlAndAddToGrid(grid, eControlType, tagValue, caption, row, column, width, height, tooltip, new Thickness(0,0,0,0), null);
+            CreateControlAndAddToGrid(
+                grid, 
+                eControlType, 
+                tagValue, 
+                caption, 
+                row, 
+                column, 
+                width, 
+                height, 
+                tooltip, 
+                new Thickness(0,0,0,0), 
+                null, 
+                null
+            );
         }
 
-        public static void CreateControlAndAddToGrid(Grid grid, ControlType eControlType, object tagValue, string caption, int row, int column, int width, int height, string tooltip, Thickness margin, RoutedEventHandler clickEventHandler)
+        public static void CreateControlAndAddToGrid(
+            Grid grid,
+            ControlType eControlType,
+            object tagValue,
+            string caption,
+            int row,
+            int column,
+            int width,
+            int height,
+            string tooltip,
+            Thickness margin,
+            RoutedEventHandler clickEventHandler,
+            TextChangedEventHandler textChangedEventHandler
+        )
+        {
+            CreateControlAndAddToGrid(
+                grid,
+                eControlType,
+                tagValue,
+                caption,
+                new List<string>(),
+                row,
+                column,
+                width,
+                height,
+                tooltip,
+                margin,
+                clickEventHandler,
+                textChangedEventHandler
+            );
+        }
+
+        public static void CreateControlAndAddToGrid(
+            Grid grid,
+            ControlType eControlType,
+            object tagValue,
+            string caption,
+            List<string> supportedParams,
+            int row,
+            int column,
+            int width,
+            int height,
+            string tooltip,
+            Thickness margin,
+            RoutedEventHandler clickEventHandler,
+            TextChangedEventHandler textChangedEventHandler
+        )
         {
             if (grid != null)
             {
@@ -60,7 +132,7 @@ namespace TaskExecutor
                                 Text = caption,
                                 Margin = margin,
                                 ToolTip = tooltip,
-                                TextWrapping = TextWrapping.Wrap                                
+                                TextWrapping = TextWrapping.Wrap
                             };
                         }
                         break;
@@ -73,6 +145,25 @@ namespace TaskExecutor
                                 Text = caption,
                                 Margin = margin,
                                 ToolTip = $"Args must be separated by a '{TaskExecutorLib.Process.ArgSeparator}' character. {tooltip}",
+                            };
+
+                            if (textChangedEventHandler != null)
+                            {
+                                ((TextBox)control).TextChanged += textChangedEventHandler;
+                            }
+                        }
+                        break;
+
+                    case ControlType.eComboBox:
+                        {
+                            control = new ComboBox()
+                            {
+                                Tag = tagValue,
+                                Text = caption,
+                                Margin = margin,
+                                ToolTip = $"Args must be separated by a '{TaskExecutorLib.Process.ArgSeparator}' character. {tooltip}",
+                                ItemsSource = supportedParams,
+                                SelectedIndex = 0
                             };
                         }
                         break;

@@ -52,7 +52,6 @@ namespace TaskExecutor
                 });
 
                 const string tooltipLabel = "Command";
-                const string tooltipTextbox = "Parameters";
                 const string tooltipButton = "Execute command with specified parameters";
 
                 // Add row definitions and all of the Gui elements for each parameterised command.
@@ -64,8 +63,59 @@ namespace TaskExecutor
                         Height = new GridLength(50, GridUnitType.Pixel)
                     });
 
-                    GuiHelpers.CreateControlAndAddToGrid(gridCommands, GuiHelpers.ControlType.eTextBlock, command.Id, command.GetCommandExpandEnvironmentVariables(), row, 0, 0, 0, tooltipLabel, new Thickness(10, 10, 10, 10), null);
-                    GuiHelpers.CreateControlAndAddToGrid(gridCommands, GuiHelpers.ControlType.eTextBox, command.Id, command.Args, row, 1, 0, 0, tooltipTextbox, new Thickness(10, 10, 10, 10), null);
+                    var fullCommandTooltipTextbox = $"Evaluates to: ({command.GetFullEvaluatedCommandWithArgs()})";
+
+                    GuiHelpers.CreateControlAndAddToGrid(
+                        gridCommands,
+                        GuiHelpers.ControlType.eTextBlock,
+                        command.Id,
+                        command.GetCommandExpandEnvironmentVariables(),
+                        row,
+                        0,
+                        0,
+                        0,
+                        tooltipLabel,
+                        new Thickness(10, 10, 10, 10),
+                        null,
+                        null
+                    );
+
+                    if (command.SupportedParams.Count() > 0)
+                    {
+                        GuiHelpers.CreateControlAndAddToGrid(
+                            gridCommands,
+                            GuiHelpers.ControlType.eComboBox,
+                            command.Id,
+                            command.Args,
+                            command.SupportedParams,
+                            row,
+                            1,
+                            0,
+                            0,
+                            fullCommandTooltipTextbox,
+                            new Thickness(10, 10, 10, 10),
+                            null,
+                            TextBoxSetTooltip
+                        );
+                    }
+                    else
+                    {
+                        GuiHelpers.CreateControlAndAddToGrid(
+                            gridCommands,
+                            GuiHelpers.ControlType.eTextBox,
+                            command.Id,
+                            command.Args,
+                            row,
+                            1,
+                            0,
+                            0,
+                            fullCommandTooltipTextbox,
+                            new Thickness(10, 10, 10, 10),
+                            null,
+                            TextBoxSetTooltip
+                        );
+                    }
+
                     ++row;
                 }
 
@@ -77,7 +127,35 @@ namespace TaskExecutor
                     Height = new GridLength(60, GridUnitType.Pixel)
                 });
 
-                GuiHelpers.CreateControlAndAddToGrid(gridCommands, GuiHelpers.ControlType.eButton, null, "Ok", okBtnRowIndex, 1, 60, 30, tooltipButton, new Thickness(0, 0, 0, 0), Ok_Click);
+                GuiHelpers.CreateControlAndAddToGrid(
+                    gridCommands,
+                    GuiHelpers.ControlType.eButton,
+                    null,
+                    "Ok",
+                    okBtnRowIndex,
+                    1,
+                    60,
+                    30,
+                    tooltipButton,
+                    new Thickness(0, 0, 0, 0),
+                    Ok_Click,
+                    null
+                );
+            }
+        }
+
+        private void TextBoxSetTooltip(object Sender, TextChangedEventArgs e)
+        {
+            var textBox = (TextBox)Sender;
+            if (textBox != null && textBox.Tag != null)
+            {
+                var commands = Task.Commands.Where(value => value.Id == (int)textBox.Tag);
+                if (commands.Any())
+                {
+                    var command = commands.First();
+                    textBox.ToolTip = $"Evaluates to: ({command.GetFullEvaluatedCommandWithArgs(textBox.Text)})";
+                    textBox.Focus();
+                }
             }
         }
 
@@ -99,12 +177,13 @@ namespace TaskExecutor
             public bool Result { get; set; }
             public Dictionary<int, string> OverrideArgs { get; set; }
         }
-        
+
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
 
             var textboxes = this.gridCommands.Children.OfType<TextBox>();
+            var comboboxes = this.gridCommands.Children.OfType<ComboBox>();
 
             OverrideArgs = new Dictionary<int, string>();
 
@@ -114,6 +193,15 @@ namespace TaskExecutor
                 if (commandId >= 0)
                 {
                     OverrideArgs.Add(commandId, tb.Text);
+                }
+            }
+
+            foreach (var cb in comboboxes)
+            {
+                int commandId = (int)cb.Tag;
+                if (commandId >= 0)
+                {
+                    OverrideArgs.Add(commandId, cb.Text);
                 }
             }
 

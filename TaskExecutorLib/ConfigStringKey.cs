@@ -9,6 +9,8 @@
         public const string COMMAND = "cmd";
         public const string ARGS = "args";
         public const string PARAMETERISED = "parameterised";
+        public const string SUPPORTED_PARAMS_INFO = "supportedParamsInfo";
+        public const string SUPPORTED_PARAM = "supportedParam";
         public const string CONFIRM = "confirm";
         public const string REDIRECT_STANDARD_OUTPUT = "redirectStandardOutput";
         public const string CAPTION = "caption";

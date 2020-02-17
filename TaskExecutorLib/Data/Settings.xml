@@ -11,11 +11,12 @@
   <TasksXSD>Tasks.xsd</TasksXSD>
 
   <!-- GUI Settings-->
-
+  
   <!-- How many tasks should be shown on the GUI for each row-->
   <tasksPerRow>3</tasksPerRow>
   <!-- The default form width-->
   <defaultWidthPixels>300</defaultWidthPixels>
   <!-- The default form height-->
   <defaultHeightPixels>300</defaultHeightPixels>
+
 </settings>

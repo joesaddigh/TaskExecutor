@@ -2,13 +2,17 @@
 <taskData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <taskEntry>
-    <caption>Exe Config Dir</caption>
+    <caption>Explorer</caption>
     <image>Images\explorer.png</image>
     <command>
       <type>commandTask</type>
       <cmd>explorer.exe</cmd>
-      <args>Data\</args>
+      <args>%UTC_BUILD_ROOT%</args>
+      <parameterised>true</parameterised>
+      <supportedParamsInfo>
+        <supportedParam>C:\</supportedParam>
+      </supportedParamsInfo>
     </command>
-  </taskEntry>
+   </taskEntry>
   
 </taskData>
