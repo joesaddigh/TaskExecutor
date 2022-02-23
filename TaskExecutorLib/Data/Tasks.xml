@@ -7,7 +7,7 @@
     <command>
       <type>commandTask</type>
       <cmd>explorer.exe</cmd>
-      <args>%UTC_BUILD_ROOT%</args>
+      <args></args>
       <parameterised>true</parameterised>
       <supportedParamsInfo>
         <supportedParam>C:\</supportedParam>
